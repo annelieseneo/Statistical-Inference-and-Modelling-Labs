@@ -1,0 +1,163 @@
+\documentclass{article}
+\usepackage{amsmath}
+\title{Lab 1 : Introduction to R}
+\author{\\ \\Module : ITS66804 Statistical Inference and Modelling\\Lecturer : Dr Thulasyammal Ramiah Pillai\\ \\ \\Submitted by : \\Name : Neo Ann Yi\\Student ID : 0340281}
+\date{}
+
+\begin{document}
+\maketitle{}
+\clearpage
+
+\begin{enumerate}
+
+\item Problem 1:\\
+Use R Studio as a calculator to compute the following values.
+
+\begin{enumerate}
+
+\item 27(38 - 17)
+<<Q1a,echo=TRUE>>=
+q1a = 27 * (38 - 17)
+@
+Answer : \Sexpr{q1a}\\
+Conclusion : New numbering is created using 'item', and inline code chunk results are inserted using 'sexpr'.
+\vspace*{1\baselineskip}
+
+\item $ln(14^7)$
+<<Q1b,echo=TRUE>>=
+q1b = round(log(14 ^ 7), 4)
+@
+Answer : \Sexpr{q1b}\\
+Conclusion : Equations are created and displayed in between '\$'s, and the results are rounded to specific decimal places using the 'round' function.
+\vspace*{1\baselineskip}
+
+\item $\sqrt{\frac{436}{12}}$
+<<Q1c,echo=TRUE>>=
+q1c = round(sqrt(436 / 12), 4)
+@
+Answer : \Sexpr{q1c}\\
+Conclusion : Square roots of fractions are created and displayed using 'sqrt' and 'frac'.
+
+\end{enumerate}
+
+Conclusion: R provides a wide range of integrated arithmetical and data calculation tools, including various mathematical operators and built-in functions to accurately compute specific values, as demonstrated above.
+\vspace*{1\baselineskip}
+
+\item Problem 2:\\
+Create the following vectors in R.\\
+a = (5, 10, 15, 20, ..., 160)\\
+b = (87, 86, 85, ..., 56)\\
+Use vector arithmetic to multiply these vectors and call the result d. 
+<<>>=
+a <- seq(5, 160, 5)
+b <- seq(87, 56, -1)
+d <- a * b
+@
+Conclusion : Sequences are created using the 'seq' function, and these can be multiplied together using vector arithmetic.\\
+
+Select subsets of d to identify the following.
+
+\begin{enumerate}
+
+\item What are the 19th, 20th, and 21st elements of d?
+<<>>=
+q2a = d[19:21]
+@
+Answer : The 19th, 20th, and 21st element are \Sexpr{q2a} \\respectively.\\
+Conclusion : Vector elements can be found according to their \\position, and ':' is used to find elements located between a specific range of position.
+\vspace*{1\baselineskip}
+
+\item What are all of the elements of d which are less than 2000?
+<<>>=
+q2b = d[d < 2000]
+@
+Answer : The elements that are less than 2000 are \Sexpr{q2b}.\\
+Conclusion : Arithmetic operators are used to specify a condition that needs to be satisfied.
+\vspace*{1\baselineskip}
+
+\item How many elements of d are greater than 6000?
+<<>>=
+q2c = sum(d > 6000)
+@
+Answer : \Sexpr{q2c} of the elements are greater than 6000.\\
+Conclusion : The number of elements that satisfy a specific condition can be counted or totaled using the 'sum' function.
+
+\end{enumerate}
+
+Conclusion: R functions allow easy and quick creation of systematic and sequence data using vectors, and further generation and comparison of conditional subsets using conditional operators, based on a complete data table.
+\vspace*{1\baselineskip}
+
+\item Problem 3:\\
+Using d from problem 2, use R to compute the following statistics of d:
+
+\begin{enumerate}
+
+\item sum
+<<>>=
+q3a = sum(d)
+@
+Answer : The sum is 175120.\\
+Conclusion : The function used to calculate the sum of all elements is 'sum'.
+\vspace*{1\baselineskip}
+
+\clearpage
+
+\item median
+<<>>=
+q3b = round(median(d), 4)
+@
+Answer : The median is \Sexpr{q3b}.\\
+Conclusion : The function used to find the median of the elements is 'median'.
+\vspace*{1\baselineskip}
+
+\item standard deviation
+<<>>=
+q3c = round(sd(d), 4)
+@
+Answer : The standard deviation is \Sexpr{q3c}.\\
+Conclusion : The function used to calculate the standard deviation of the elements is 'sd'.
+
+\end{enumerate}
+
+Conclusion: R offers summary statistics for variables and data tables through the use of descriptive statistical functions, as exemplified above.
+\vspace*{1\baselineskip}
+
+\item Problem 4:\\
+Use R to create the following two matrices and do the indicated matrix multiplication. \\
+
+$\begin{bmatrix} 
+7& 9& 12\\
+2& 4& 13
+\end{bmatrix}$
+$\times$
+$\begin{bmatrix} 
+1& 7& 12& 19\\
+2& 8& 13& 20\\
+3& 9& 14& 21
+\end{bmatrix}$
+
+\vspace*{1\baselineskip}
+
+What is the resulting matrix?
+<<>>=
+#first matrix
+x <- c(7, 2, 9, 4, 12, 13)
+dim(x) <- c(2, 3)
+
+#second matrix
+y <- c(1, 2, 3, 7, 8, 9, 12, 13, 14, 19, 20, 21)
+dim(y) <- c(3, 4)
+
+#matrix multiplication
+x %*% y
+@
+Answer : The resulting matrix is
+$\begin{bmatrix} 
+61& 229& 369& 565\\
+49& 163& 258& 391
+\end{bmatrix}$
+\vspace*{1\baselineskip}
+
+Conclusion: R supports the automation of matrix creation from a given set of vector values using the 'c' function, as well as the dimensions declared for the number of columns and rows through the 'dim' function.
+\end{enumerate}
+\end{document}
