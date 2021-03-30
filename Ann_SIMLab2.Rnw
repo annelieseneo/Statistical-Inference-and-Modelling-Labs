@@ -1,0 +1,450 @@
+\documentclass{article}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{color}
+\usepackage{soul}
+\title{Lab 2 : Graph and Probability Distribution}
+\author{\\ \\Module : ITS66804 Statistical Inference and Modelling\\Lecturer : Dr Thulasyammal Ramiah Pillai\\ \\Submitted by : \\Name : Neo Ann Yi\\Student ID : 0340281}
+\date{}
+
+\begin{document}
+
+\maketitle{}
+\clearpage
+\listoftables
+
+\listoffigures
+
+\clearpage
+
+\begin{enumerate}
+
+\item Problem 1:\\
+The following data give the results of a sample survey. The letters A, B, and C represent the three categories.
+
+\begin{tabular}{c c c c c c c c c c} 
+A & B & B & A & C & B & C & C & C & A \\ 
+C & B & C & A & C & C & B & C & C & A \\
+A & B & C & C & B & C & B & A & C & A
+\end{tabular}
+
+<<>>=
+Q1a = c('A' , 'B' , 'B' , 'A' , 'C' , 'B' , 'C' , 'C' ,
+        'C' , 'A' , 'C' , 'B' , 'C' , 'A' , 'C' , 'C' , 
+        'B' , 'C' , 'C' , 'A' , 'A' , 'B' , 'C' , 'C' , 
+        'B' , 'C' , 'B' , 'A' , 'C' , 'A')
+table(Q1a)
+table(Q1a) / 30 #calculate relative frequency
+@
+
+\begin{enumerate}
+\item Prepare a frequency distribution table.\\
+The frequency distribution table is given in Table \ref{Q1aTable} on Page \pageref{Q1aTable}.
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Category & Frequency \\
+\hline
+A & 8 \\
+\hline
+B & 8 \\
+\hline
+C & 14 \\
+\hline
+Total & 30 \\
+\hline
+\end{tabular}
+\captionof{table}{Frequency Distribution Table}\label{Q1aTable}
+\end{center}
+Conclusion : Frequency is the number of occurrences of a certain value. R provides table() function to automatically compute the frequency distribution table.
+
+\vspace*{1\baselineskip}
+\item Calculate the relative frequencies and percentages for all categories.\\
+The relative frequency distribution table is given in Table \ref{Q1bTable} on Page \pageref{Q1bTable}.
+
+\clearpage
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Category & Frequency & Relative Frequency & Percentage (\%)\\
+\hline
+A & 8 & 0.27 & 27\\
+\hline
+B & 8 & 0.27 & 27\\
+\hline
+C & 14 & 0.46 & 46\\
+\hline
+Total & 30 & 1.00 & 100\\
+\hline
+\end{tabular}
+\captionof{table}{Relative Frequency Distribution Table}\label{Q1bTable}
+\end{center}
+Conclusion : Relative frequency is the fraction or proportion of \\occurrences of a certain value, and is found by dividing the respective frequencies by the total number of data records, and the relative percentage is computed by relative frequency x 100\%. Both are in relation to the results of the entire sample survey.
+
+\vspace*{1\baselineskip}
+\item What percentage of the elements in this sample belong to category B?
+<<>>=
+q1c = round(8/30 * 100, 4)
+@
+Answer : \Sexpr{q1c}\% belong to category B.\\
+Conclusion : The relative percentage can be computed as described in question 1b, as well as using Table 2.
+\vspace*{1\baselineskip}
+\item What percentage of the elements in this sample belong to category A and C?\\
+Category A :
+<<>>=
+q1dA = round(8/30 * 100, 4)
+@
+Category C :
+<<>>=
+q1dC = round(14/30 * 100, 4)
+@
+Category A and C : 
+<<>>=
+q1dAC = round((8/30 * 100) + (14/30 * 100), 4)
+@
+Answer : \Sexpr{q1dA}\% belong to category A, \Sexpr{q1dC}\% belong to \\category C, so \Sexpr{q1dAC}\% belong to category A and C.\\
+Conclusion : The combined relative percentage can be computed as described in question 1b, as well as using Table 2.
+\vspace*{1\baselineskip}
+\item Draw a bar graph for the frequency distribution.\\
+Answer : The bar graph is given in Figure \ref{Q1eFigure} on Page \pageref{Q1eFigure}.\\
+Conclusion : The bar chart visualises the frequency distribution of the categories, where category C can be seen to have the largest frequency of 14.
+\begin{figure}
+<<>>=
+H <- c(8, 8, 14)
+M <- c('A','B','C')
+# column chart of frequency distribution
+barplot(H, names.arg = M, xlab = "Category", ylab = "Frequency",
+        col = "maroon", 
+        main = "Frequency Distribution of the Categories")
+@
+\captionof{figure}{Bar Graph of the Categories}\label{Q1eFigure}
+\end{figure}
+\end{enumerate}
+\clearpage
+Conclusion : Concepts of frequency, relative frequency, and cumulative frequency are interrelated, and they are extensively used with probability distributions in statistics. Specifically, their use in descriptive statistics will allow concise display of and at-a-glance references into raw data \\distribution. The mode which is the most often occurring value, as well as the ranges, lower and upper limits, and rare values and outliers can all be identified if applicable and depending on the data types.
+\vspace*{1\baselineskip}
+
+\item Problem 2:\\
+The following table gives the frequency distribution of the number of credit cards possessed by 80 adults.
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Number of Credit Cards & Number of Adults\\
+\hline
+0 to 3 & 18 \\
+\hline
+4 to 7 & 26 \\
+\hline
+8 to 11 & 22 \\
+\hline
+12 to 15 & 11 \\
+\hline
+16 to 19 & 3 \\
+\hline
+\end{tabular}
+\end{center}
+<<>>=
+freq <- c(18, 26, 22, 11, 3) # relative frequency
+cumsum(freq) # cumulative frequency
+Q2b = c(18, 44, 66, 77, 80)
+Q2b / 80 #calculate cumulative relative frequency
+@
+\begin{enumerate}
+\item Prepare a cumulative frequency distribution.\\
+The cumulative frequency distribution table is given in Table \ref{Q2aTable} on Page \pageref{Q2aTable}.
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Number of & Cumulative Frequency of\\Credit Cards & Number of Adults\\
+\hline
+0 to 3 & 18 \\
+\hline
+4 to 7 & 44 \\
+\hline
+8 to 11 & 66 \\
+\hline
+12 to 15 & 77 \\
+\hline
+16 to 19 & 80 \\
+\hline
+\end{tabular}
+\captionof{table}{Cumulative Frequency Distribution Table}\label{Q2aTable}
+\end{center}
+Conclusion : The cumulative frequency is computed as the \\accumulated total of all the previous frequencies. The last value will always be equal to the total number of records, in other words the sum of all frequencies. R provides the cumsum() function to automatically compute this.
+
+\vspace*{1\baselineskip}
+\item Calculate the cumulative relative frequencies and cumulative \\percentages for all classes.\\
+The cumulative relative frequency distribution table is given in Table \ref{Q2bTable} on Page \pageref{Q2bTable}.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Number of & Cumulative & Cumulative & Cumulative\\
+Credit Cards & Frequency & Relative Frequency & Percentage (\%)\\
+\hline
+0 to 3 & 18 & 0.2250 & 22.50\\
+\hline
+4 to 7 & 44 & 0.5500 & 55.00\\
+\hline
+8 to 11 & 66 & 0.8250 & 82.50\\
+\hline
+12 to 15 & 77 & 0.9625 & 96.25\\
+\hline
+16 to 19 & 80 & 1.0000 & 100.00\\
+\hline
+\end{tabular}
+\captionof{table}{Cumulative Relative Frequency Distribution Table}\label{Q2bTable}
+\end{center}
+Conclusion : The cumulative relative frequency is the accumulated total of all the previous relative frequencies, and the cumulative \\percentage is computed by cumulative relative frequency x 100\%.
+
+\vspace*{1\baselineskip}
+\item Find the percentage of these adults who possess 7 or fewer credit cards.\\
+Answer : 55\% possess 7 or fewer credit cards.\\
+Conclusion : The cumulative percentage can be found using Table 4 in question 2b.
+\vspace*{1\baselineskip}
+
+\item Draw an ogive for the cumulative percentage distribution.\\
+Answer : The ogive for cumulative percentage distribution of number of credit cards is given in Figure \ref{Q2dFigure} on Page \pageref{Q2dFigure}.\\
+Conclusion : An ogive visualises the curved cumulative frequency polygon graph, in order to estimate the number of values that falls above or below a certain data value. In this case, the cumulative percentage is plotted on the graph, so the maximum cumulative \\percentage distribution value on the y-axis will be 100\%.
+\begin{figure}
+<<>>=
+x = c(0,3,7,11,15,19)
+cpd = c(0,22.5,55,82.5,96.25,100)
+# plot ogive for cumulative percentage distribution
+plot(x, cpd, type = "b", xlab = "Number of Credit Cards", 
+     ylab = "Cumulative Percentage Distribution (%)",
+     main = "Ogive for Cumulative Percentage Distribution of
+     Number of Credit Cards",
+     xlim = c(0, 20), col = "maroon", pch = 20)
+@
+\captionof{figure}{Ogive for Cumulative Percentage Distribution of Number of Credit Cards}\label{Q2dFigure}
+\end{figure}
+
+\clearpage
+\item Using the ogive, find the percentage of adults who possess 10 or fewer credit cards.\\
+Answer : The percentage of adults who possess 10 or fewer credit cards is approximately 78\%.\\
+Conclusion : As discussed in question 2d, the ogive graph is used to find the percentage of adults on the y-axis based on the given number of credit cards on the x-axis.
+\end{enumerate}
+Conclusion : The ogive graph is useful in statistics to provide visualisations of cumulative frequency or percentages, in order to determine the median and the percentiles of a dataset. It can also be used to estimate the number of values that falls above or below a specific data value.
+
+\vspace*{1\baselineskip}
+\item Problem 3:\\
+Calculate the mean, median, variance, standard deviation, first quartile, second quartile, third quartile and mode for the Iris data in R dataset. Is the distribution symmetric or skewed?
+<<>>=
+summary(iris)
+# variance
+lapply(iris[, 1:4], var)
+# standard deviation
+lapply(iris[, 1:4], sd)
+# mode
+getmode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+lapply(iris[, 1:4], getmode)
+@
+Answer : The  mean, median, variance, standard deviation, first quartile, second quartile, third quartile and mode for the Iris data is given in the table below, on Page 10.\\
+\begin{tabular}{lcccc}
+Parameter & Sepal & Sepal & Petal & Petal\\
+ & Length & Width & Length & Width\\
+\hline
+Mean & 5.8430 & 3.0570 & 3.7580 & 1.1990\\
+Median & 5.8000 & 3.0000 & 4.3500 & 1.3000\\
+Variance & 0.6857 & 0.1900 & 3.1163 & 0.5810\\
+Standard Deviation & 0.8281 & 0.4359 & 1.7653 & 0.7622\\
+First Quartile & 5.10 & 2.80 & 1.60 & 0.30\\
+Second Quartile & 5.80 & 3.00 & 4.35 & 1.30\\
+Third Quartile & 6.40 & 3.30 & 5.10 & 1.80\\
+Mode & 5 & 3 & 1.4 & 0.2\\
+\end{tabular}
+\vspace*{1\baselineskip}
+\\The Boxplot is given in Figure \ref{Q3boxplotfigure} on Page \pageref{Q3boxplotfigure}. The Histogram is given in Figure \ref{Q3histogramfigure} on Page \pageref{Q3histogramfigure}.
+
+\vspace*{1\baselineskip}
+The distribution is not symmetric.\\
+The mean, median, and mode, are compared, using the summary statistics given in the table above\\
+For Sepal Length and Sepal Width, the mean is greater than median, and the median is greater than the mode. Hence, they are positively skewed to the right.\\
+For Petal Length and Petal Width, the mean is less than median. Hence, they are negatively skewed to the left.\\
+The same can be observed using the boxplots where the whiskers and the shaded areas are not symmetric about the mean, and the histogram plots where the graph does not have an approximate bell shape and is not symmetric about the mean.
+
+\vspace*{1\baselineskip}
+
+Conclusion : The type of data distribution, as well as its overall symmetry and skewness, can be determined by comparing the mean, median, and mode, as well as through the use of boxplots or histogram plots.
+\clearpage
+
+\begin{figure}
+<<>>=
+# boxplot
+bp <- boxplot(iris[, 1:4], main = 'Boxplot of Iris data (in cm)', 
+              boxwex = 0.35, col = 'maroon')
+text(x = col(bp$stats) - .35, y = bp$stats, labels = bp$stats)
+@
+\captionof{figure}{Boxplot of Iris data (in cm)}\label{Q3boxplotfigure}
+\end{figure}
+
+\begin{figure}
+<<echo=TRUE,figure=TRUE>>=
+par(mfrow = c(2,2))
+# histograms
+hist(iris$Sepal.Length, labels = TRUE, xlim = c(4, 8),
+     ylim = c(0, 35), main = 'Histogram of Sepal Length (in cm)',
+     xlab = 'Sepal Length (in cm)', col = 'maroon')
+hist(iris$Sepal.Width, labels = TRUE, xlim = c(2, 4.5),
+     ylim = c(0, 40), main = 'Histogram of Sepal Width (in cm)', 
+     xlab = 'Sepal Width (in cm)', col = 'maroon')
+hist(iris$Petal.Length, labels = TRUE, xlim = c(1, 7),
+     ylim = c(0, 40), main = 'Histogram of Petal Length (in cm)',
+     xlab = 'Petal Length (in cm)', col = 'maroon')
+hist(iris$Petal.Width, labels = TRUE, xlim = c(0, 3),
+     ylim = c(0, 40), main = 'Histogram of Petal Width (in cm)',
+     xlab = 'Petal Width (in cm)', col = 'maroon')
+@
+\captionof{figure}{Histograms of Iris Data (in cm)}\label{Q3histogramfigure}
+\end{figure}
+
+\clearpage
+\item Problem 4:\\
+An office supply company conducted a survey before marketing a new paper shredder designed for home use. In the survey, 80\% of the people who used the shredder were satisfied with it. Because of this high acceptance rate, the company decided to market the new shredder. Assume that 80\% of all people who will use it will be satisfied. On a certain day, seven customers bought this shredder.
+\begin{enumerate}
+\item Let x denote the number of customers in this sample of seven who will be satisfied with this shredder. Using the binomial probabilities (R software), obtain the probability distribution of x and draw a graph of the probability distribution. Find the mean and standard deviation of x.
+<<>>=
+x <- dbinom(0:7, 7, 0.8)
+x
+# mean
+q4aM = round(mean(x), 4)
+# standard deviation
+q4aSD = round(sd(x), 4)
+@
+The probability distribution of x is given in Table \ref{Q4Table} on Page \pageref{Q4Table}.\\
+The graph of the probability distribution of x is given in Figure \ref{Q4Figure} on Page \pageref{Q4Figure}.\\
+The mean and standard deviation of x is \Sexpr{q4aM} and \Sexpr{q4aSD}\\ respectively.
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+x & Binomial Distribution\\
+\hline
+0 & 0.0000\\
+\hline
+1 & 0.0004\\
+\hline
+2 & 0.0043\\
+\hline
+3 & 0.0287\\
+\hline
+4 & 0.1147\\
+\hline
+5 & 0.2753\\
+\hline
+6 & 0.3670\\
+\hline
+7 & 0.2097\\
+\hline
+\end{tabular}
+\captionof{table}{Probability Distribution Table}\label{Q4Table}
+\end{center}
+Conclusion : R provides the dbinom() function to compute the \\probability of obtaining a specified number of successes given a \\certain number of trials, where the probability of success for all trials is fixed. The mean() and sd() functions can then be used on this binomial probability distribution.
+
+\begin{figure}
+<<>>=
+# column chart of probability distribution
+bar <- barplot(x, names.arg = 0:7, col = "maroon", 
+               xlab = 'x', ylab = 'Probability', ylim = c(0, 0.4), 
+               main = 'Probability Distribution of x')
+text(bar, x, round(x, 4), cex = 0, pos = 3, xpd = NA) 
+@
+\captionof{figure}{Barplot of Probability Distribution of x}\label{Q4Figure}
+\end{figure}
+\clearpage
+\item Using the probability distribution of part a, find the probability that exactly four of the seven customers will be satisfied.\\
+P(x = 4) for n = 7 and p = 0.80
+<<>>=
+# probability of exactly four customers
+q4b = round(dbinom(4, 7, 0.8), 4)
+@
+Answer : The value of P(x = 4) is \Sexpr{q4b}.\\
+Conclusion : As discussed in question 4a, the dbinom() function can compute the probability of obtaining a specified number of successes given a certain number of trials, where the probability of success for all trials is fixed
+\end{enumerate}
+Conclusion : The dbinom() function computes the probability of obtaining a specified number of successes given a certain number of trials, where the probability of success for all trials is fixed
+\vspace*{1\baselineskip}
+
+\item Problem 5:\\
+Let X be a continuous random variable with the following PDF\\
+$$f(x) =\begin{cases} \frac{3}{x^4} & x \ge 1 \\
+                      0 & otherwise
+       \end{cases}$$
+
+\begin{enumerate}
+\item Find $P(0 \le x \le 0.5)$\\
+Since $P(x < 1)$ = 0, $P(0 \leq x \leq 0.5)$ = 0\\
+Answer : 0\\
+Conclusion : Given the probability density function (PDF), the \\probability when x is less than 1 will always be 0.
+\vspace*{1\baselineskip}
+
+\item Find $P(0.5 \le x \le 0.75)$\\
+Since $P(x < 1)$ = 0, $P(0.5 \leq x \leq 0.75)$ = 0\\
+Answer : 0\\
+Conclusion : Given the PDF, the probability when x is less than 1 will always be 0.
+\vspace*{1\baselineskip}
+
+\item Find $P(x \ge 0.75)$\\
+Since $P(x < 1)$ = 0, $P(0.75 \leq x < 1)$ = 0
+<<>>=
+# define the integrated function
+integrand <- function(x) {3/(x^4)}
+
+# integrate the function from 1 to Inf
+q5c = integrate(integrand, lower = 1, upper = Inf)
+q5c
+@
+According to this, $P(x \ge 1) = 1$
+$P(0.75 \leq x < 1) + P(x \ge 1) = 1$\\
+Answer : $P(x \ge 0.75)$ = 1\\
+Conclusion : Given the PDF, the probability when x is less than 1 will always be 0. This is added to the probability when x is at least 1, which will always be 1 as the area under the PDF curve. The resulting probability is 1. R provides the integrate() function to compute the area under the curve for specified lower and upper limits, along with the absolute error of the estimated probability.
+\vspace*{1\baselineskip}
+
+\item Find the CDF of X, $F(x)$\\
+\[ F(x)=\int_{1}^{x} \frac{3}{u^4}\;\mathrm{d}u \]\\
+\[ F(x)=  -\frac{1}{u^3} \Big|_{1}^{x} \]\\
+\[ F(x)=-\frac{1}{x^3} + 1\]\\
+Answer : \\
+$$F(x) =\begin{cases} 1 - \frac{1}{x^3} & x \ge 1 \\
+                      0 & otherwise
+       \end{cases}$$
+Conclusion : The cumulative distribution function (CDF) is found by integrating the function derived from the PDF for the continuous random variable. This can be used to find the probability that a specific random observation taken from the population will be at a value less than or equal to a given cutoff, or greater than the cutoff, or between two cutoff values.
+\vspace*{1\baselineskip}
+
+\item Find the expected value of X\\
+\[E[X]=\int_{1}^{\infty} x(\frac{3}{x^4})\;\mathrm{d}x\]\\
+\[E[X]=\int_{1}^{\infty} \frac{3}{x^3}\;\mathrm{d}x\]\\
+\[E[X]=-\frac{3}{2x^2}\Big|_{1}^{\infty}\]
+\[E[X]= 0 + \frac{3}{2}\]
+\[E[X]= \frac{3}{2}\]
+Answer : The expected value of X is $\frac{3}{2}$.
+
+\vspace*{1\baselineskip}
+Conclusion : The expected value E[X], also known as the mean or average value, is the integration of x multiplied by the PDF.
+\vspace*{1\baselineskip}
+
+\item Find the Var(X)\\
+Var(X) = $E[X^2] - E[X]^2$\\
+$E[X^2] = $
+\[E[X^2]=\int_{1}^{\infty} x^2(\frac{3}{x^4})\;\mathrm{d}x\]\\
+\[E[X^2]=\int_{1}^{\infty} \frac{3}{x^2}\;\mathrm{d}x\]\\
+\[E[X^2]=-\frac{3}{x}\Big|_{1}^{\infty}\]
+\[E[X^2]= 0 + \frac{3}{1}\]
+\[E[X^2]= 3\]
+$E[X]^2 = \frac{3}{2} ^2 = \frac{9}{4}$\\
+\\
+Var(X) = $E[X^2] - E[X]^2$ = 3 - $\frac{9}{4}$ = 0.75\\
+\\
+Answer : Var(X) is 0.75.\\
+Conclusion : The variance Var(X) is the difference between the mean squared deviation and the squared expected or mean value. This measures the average degree of difference between the X values and their mean, in other words the spread.
+
+\end{enumerate}
+Conclusion : A continuous random variable can take on an infinite number of possible values. The PDF allows an estimated probability of the variable taking on a specified range of values, which is found by integrating the function according to the specified upper and lower limits to find the area under the curve. The CDF finds the probability in relation to specified cutoff values. The mean and variance can also be found by integrating the PDF according to their respective concepts and equations. 
+
+\end{enumerate}
+\end{document}
