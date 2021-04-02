@@ -1,0 +1,151 @@
+\documentclass{article}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\title{Lab 3 : Inferential Statistics}
+\author{\\ \\Module : ITS66804 Statistical Inference and Modelling\\Lecturer : Dr Thulasyammal Ramiah Pillai\\ \\Submitted by : \\Name : Neo Ann Yi\\Student ID : 0340281}
+\date{}
+\begin{document}
+\maketitle{}
+\clearpage
+
+\section{Problem 1}
+A company randomly selected nine office employees and secretly monitored their computers for one month. The times (in hours) spent by these employees using their computers for a non-job-related activities (playing games, personal communications, etc) during this month are given below:
+
+\begin{tabular}{ccccccccc}
+7&12&9&8&11&4&14&1&6\\
+\end{tabular}
+\\Assuming that such times for all employees are normally distributed, construct a 95\% confidence interval for the corresponding population mean for all employees of this company.
+<<>>=
+d = c(7, 12, 9, 8, 11, 4, 14, 1, 6)
+a <- mean(d) # mean
+s <- sd(d) # standard deviation
+n <- 9 # count of number of samples
+error <- qnorm(0.975)*s/sqrt(n) # compute error
+left <- round(a - error, 4) # lower limit of interval
+right <- round(a + error, 4) # upper limit of interval
+@
+
+Answer : The level of certainty about the true mean is 95\%, and its value prediction is within the interval of \Sexpr{left} hours to \Sexpr{right} hours, assuming that the original random variable is normally distributed and the samples are \\independent. R provides qnorm() function to compute the quantile of the \\normal distribution at a given cumulative density, which depends on the \\confidence interval in this case.\\
+Conclusion : The confidence interval will compute an estimate of the range of possible values for an unknown parameter value, with an associated confidence level that the true parameter value is within the proposed range. The \\assumptions are that the values have a normal distribution, and they are \\independent of each other.
+
+\section{Problem 2}
+The owner's of Red's Towing and Garage Service is interested in finding the relationship between the lowest temperature on a winter day (x) and the number of emergency road service calls (y) his shop receives. The following table gives the lowest temperature (in degrees Fahrenheit) on seven winter days and the number of emergency road service calls received on those days. 
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+Lowest Temperature &15&0&24&-10&30&9&36\\
+\hline
+Number of calls&12&22&16&31&7&24&6\\
+\hline
+\end{tabular}
+\vspace*{1\baselineskip}
+\\Answer : R provides the lm() function to create a linear regression model. The linear relationship between Number of Calls and Lowest \\Temperature is found through the linear regression coefficients. The detailed result summary of the model fitting, including residuals, coefficients, standard errors, and p-values, are found using summary().
+<<>>=
+Temperature = c(15, 0, 24, -10, 30, 9, 36)
+Call = c(12, 22, 16, 31, 7, 24, 6)
+lm = lm(Call ~ Temperature) # create a linear regression model
+# result summaries of the model fitting
+summary(lm)
+@
+
+The linear regression equation is $Number of Calls = -0.5249$ x $Lowest \\Temperature + 24.6562$. The predictor Lowest Temperature is of rank-2 with negligible standard error, and a p-value of approximately 0 that rejects the null hypothesis. It is thus useful to predict Number of Calls, as it is found to be relatively important and relevant, as well as significant. The linear regression model is plotted in Figure \ref{Q2Figure} on Page \pageref{Q2Figure}. The line of best fit has a negative gradient or slope, so a unit increase in Lowest Temperature is predicted to result in a reduction of 0.5249 Number of Calls. This is the relationship between the lowest temperature on a winter day (x) and the number of emergency road service calls (y).
+\begin{figure}
+<<>>=
+# plot the simple linear regression model
+plot(Temperature, Call, main = "Temperature versus Number of Calls",
+     xlab = "Temperature ", ylab = "Number of Calls", pch = 19, 
+     xlim = c(-10, 36), ylim = c(5, 35))
+# plot line of best fit
+abline(lm(Call ~ Temperature), col = "maroon")
+@
+\captionof{figure}{Simple Linear Regression Graph of Temperature versus Number of Calls}\label{Q2Figure}
+\end{figure}
+\clearpage
+The prediction of the number of calls given a lowest temperature can be found using the predict() function in R. Note that predictions should only be made within the current range of predictor values from [-10, 36], in order to avoid inaccurate predictions due to extrapolation. 
+<<>>=
+result = lm(Call ~ Temperature)
+newTemperature = c(5)
+# predict a new data
+prediction = round(predict(result, data.frame(Temperature = 
+                                              newTemperature)), 4)
+prediction
+@
+In this case, the prediction of the number of calls given a lowest temperature of 5 degrees Fahrenheit, is approximately \Sexpr{prediction}. Predictions can also be made after taking in consideration a specific confidence interval. The prediction results will thus return the lower and upper limits of the interval range of possible values.
+<<>>=
+newTemperature = c(2, 4, 6, 8, 10)
+# predict new data using specified confidence interval
+predict(result, data.frame(Temperature = newTemperature), 
+        level = 0.9, interval = "confidence")
+@
+
+Conclusion : The linear regression model outcome is an equation of line of best fit to predict data instances within that range of predictor values, in order to avoid inaccurate results due to extrapolation. The relationship between the lowest temperature on a winter day (x) and the number of emergency road service calls (y) is found by the direction and magnitude of the gradient or slope value, in other words the coefficient of the predictor in the line of best fit.
+
+\section{Problem 3}
+The sales volumes (in thousand of ringgits) of three different locations in a supermarket
+chain were as tabulated below.
+
+\begin{tabular}{ccc}
+Front & Middle & Rear \\
+4.00& 4.50 & 3.50\\
+5.00 & 5.00 & 3.80\\
+5.40 & 3.50 & 5.50\\
+6.20 & 4.00 & 4.00\\
+\end{tabular}
+\\At 0.05 level of significance, is there evidence of a difference in the mean sales volumes
+of the different locations?
+
+<<>>=
+sales = c(4, 5, 5.4, 6.2, 4.5, 5, 3.5, 4, 3.5, 3.8, 5.5, 4)
+loca = c("Front", "Front", "Front", "Front", "Middle", "Middle",
+       "Middle", "Middle", "Rear", "Rear", "Rear", "Rear")
+# convert to data frame
+df <- data.frame(loca, sales)
+print(df)
+# obtain number of records and data types
+str(df)
+# summarise the analysis of variance (ANOVA)
+anova = aov(sales ~ loca, data = df)
+summary(anova)
+@
+Answer : R provides the aov() function to be used for the analysis of variance (ANOVA) method, in order to identify the presence of statistically significant differences between the means of the three independent and unrelated groups. The p-value is 0.241, which is more than the specified 0.05 significance level. It is thus not significant and cannot reject the null hypothesis that states that the mean sales volumes are similar. There is not enough evidence of a difference in the mean sales volumes of the different locations.\\ 
+Conclusion : The ANOVA method identifies the presence of statistically \\significant differences between the means of at least two independent and \\unrelated groups. The p-value obtained will determine the acceptance or \\rejection of the null hypothesis that was based on a given significance level. 
+
+\section{Problem 4}
+The president of a university claims that the mean time spent partying by all students at this university is not more than 7 hours per week. A random sample of 40 students taken from this university showed that they spent an average of 9.50 hours partying the previous week with a standard deviation of 2.3 hours. Test at the 2.5\% significance level whether the president's claim is true. Explain your conclusion in words.
+
+Step 1\\
+Null hypothesis $H_0:\mu \geq 7$\\
+Alternative $H_a: \mu < 7$\\
+
+Step 2\\
+Level of confidence $\alpha$ = 0.025 and n = 40, degree of freedom = 39\\
+
+Step 3 \\
+The population standard deviation $\sigma$ is unknown. Hence, the t-distribution will be used.\\
+
+Step 4\\
+$t_{stat}=$
+\[ \frac{\bar{X}-\mu}{\frac{s}{\sqrt{n}}} \]\\
+where $\bar{X}$ is the sample mean,\\
+$\mu$ is the population mean,\\
+$s$ is the sample standard deviation,\\
+and $n$ is the sample size.
+
+<<Q4,echo=TRUE>>=
+s = 2.3/sqrt(40)
+t = (9.5-7)/s
+p <- 1 - pt(t, 39)
+p
+@
+
+Step 5\\
+The probability is less than the specified level of confidence of 0.025. Hence, there is enough evidence to reject the null hypothesis, and accept the alternative. \\
+
+Step 6\\
+The alternative is that the mean time spent partying by all students at this university is not more than 7 hours per week.
+
+\vspace*{1\baselineskip}
+Conclusion : The t-distribution is used when the population standard \\deviation is unknown, but the sample mean and standard deviation, the \\population mean, and the sample size are all known. The outcome probability is compared to the specified level of confidence in order to decide to accept either the null hypothesis or its alternative.
+
+\end{document}
